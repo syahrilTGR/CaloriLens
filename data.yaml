@@ -1,0 +1,35 @@
+names:
+- ayam_goreng
+- bakso
+- dadar_jagung
+- geprek_ijo
+- geprek_ori
+- kerupuk
+- lele_goreng
+- menjes
+- mie_ayam
+- mieso
+- nasgor_jawa
+- nasgor_merah
+- nasi
+- nasi_geprekori
+- pangsit_goreng
+- pecel
+- peyek
+- siomay
+- tahu_goreng
+- telur_ceplok
+- telur_dadar
+- telur_rebus
+- tempe_goreng
+- tempe_tepung
+nc: 24
+roboflow:
+  license: CC BY 4.0
+  project: snapcal-u3ppl
+  url: https://universe.roboflow.com/snapcal-eg4sr/snapcal-u3ppl/dataset/4
+  version: 4
+  workspace: snapcal-eg4sr
+test: ../test/images
+train: ../train/images
+val: ../valid/images
