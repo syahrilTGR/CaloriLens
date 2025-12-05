@@ -1,0 +1,46 @@
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Files for the art tool
+.idea/
+.vscode/
+.DS_Store
+
+# Gradle files
+.gradle/
+build/
+local.properties
+.cxx/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+
+# Android Studio and IntelliJ IDEA files
+.idea/workspace.xml
+.idea/libraries/
+.idea/modules.xml
+.idea/modules/
+.idea/vcs.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/gradle.xml
+.idea/dictionaries
+
+# External native build folder (CMake, NDK, etc)
+.externalNativeBuild/
+
+# Instant Run
+.instantrun/
+
+# Crashlytics by Google
+com.google.firebase/
+
+# You can use "git update-index --assume-unchanged <file>" to ignore changes to a tracked file.
+# You can use "git update-index --no-assume-unchanged <file>" to start tracking again.
+
+# Exclude best_float32.zip
+best_float32.zip
