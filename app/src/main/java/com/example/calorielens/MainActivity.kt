@@ -187,7 +187,7 @@ class MainActivity : ComponentActivity() {
 
         for (det in detections) {
             val labelName = if (det.classId < labelsYolo.size) labelsYolo[det.classId] else "unknown"
-            val cal = calculateCalorie(labelName)
+            val cal = calculateCalorie(labelName) // Static calorie calculation
             results.add(DetectionResult(det.rect, labelName, det.confidence, cal))
         }
         
