@@ -44,3 +44,7 @@ com.google.firebase/
 
 # Exclude best_float32.zip
 best_float32.zip
+
+# Firebase Admin SDK Keys (SENSITIVE)
+*firebase-adminsdk*.json
+serviceAccountKey.json
