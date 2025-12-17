@@ -306,23 +306,30 @@ class MainActivity : ComponentActivity() {
     // --- Food Logging ---
     fun logFoodToFirestore(uid: String, detections: List<DetectionResult>, onSuccess: () -> Unit, onError: (String) -> Unit) {
         val db = Firebase.firestore
-        val batch = db.batch()
         val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
         
-        val logsRef = db.collection("users").document(uid).collection("foodLogs")
+        val logsRef = db.collection("users").document(uid).collection("mealLogs")
 
-        for (det in detections) {
-            val newDoc = logsRef.document() // Auto-generate document ID
-            val data = hashMapOf(
-                "foodName" to det.className,
-                "calories" to det.estimatedCalories,
-                "timestamp" to FieldValue.serverTimestamp(), // Firestore timestamp
-                "date" to today // String date for easy querying
+        // 1. Prepare the list of items
+        val foodItems = detections.map { 
+            hashMapOf(
+                "name" to it.className,
+                "calories" to it.estimatedCalories
             )
-            batch.set(newDoc, data)
         }
+        
+        // 2. Calculate total for this meal
+        val totalCal = detections.sumOf { it.estimatedCalories.toDouble() }.toFloat()
 
-        batch.commit()
+        // 3. Create Meal Document
+        val mealData = hashMapOf(
+            "date" to today,
+            "timestamp" to FieldValue.serverTimestamp(),
+            "totalCalories" to totalCal,
+            "items" to foodItems
+        )
+
+        logsRef.add(mealData)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { e -> onError(e.localizedMessage ?: "Unknown error") }
     }

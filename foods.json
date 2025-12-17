@@ -1,0 +1,218 @@
+{
+  "ayam_goreng": {
+    "name": "Ayam Goreng",
+    "proteins": 25,
+    "fat": 15,
+    "carbs": 5
+  },
+  "bakso": {
+    "name": "Bakso",
+    "proteins": 15,
+    "fat": 10,
+    "carbs": 20
+  },
+  "burger": {
+    "name": "Burger",
+    "proteins": 18,
+    "fat": 15,
+    "carbs": 35
+  },
+  "dadar_jagung": {
+    "name": "Dadar Jagung",
+    "proteins": 4,
+    "fat": 8,
+    "carbs": 15
+  },
+  "french_fries": {
+    "name": "French Fries",
+    "proteins": 3,
+    "fat": 15,
+    "carbs": 40
+  },
+  "gado_gado": {
+    "name": "Gado-Gado",
+    "proteins": 8,
+    "fat": 10,
+    "carbs": 20
+  },
+  "geprek_ijo": {
+    "name": "Ayam Geprek Ijo",
+    "proteins": 25,
+    "fat": 18,
+    "carbs": 5
+  },
+  "geprek_ori": {
+    "name": "Ayam Geprek Ori",
+    "proteins": 25,
+    "fat": 18,
+    "carbs": 8
+  },
+  "ikan_goreng": {
+    "name": "Ikan Goreng",
+    "proteins": 20,
+    "fat": 12,
+    "carbs": 0
+  },
+  "kerupuk": {
+    "name": "Kerupuk",
+    "proteins": 1,
+    "fat": 5,
+    "carbs": 10
+  },
+  "lele_goreng": {
+    "name": "Lele Goreng",
+    "proteins": 18,
+    "fat": 12,
+    "carbs": 5
+  },
+  "mendol": {
+    "name": "Mendol",
+    "proteins": 5,
+    "fat": 7,
+    "carbs": 10
+  },
+  "menjes": {
+    "name": "Menjes",
+    "proteins": 5,
+    "fat": 8,
+    "carbs": 10
+  },
+  "mie_ayam": {
+    "name": "Mie Ayam",
+    "proteins": 12,
+    "fat": 10,
+    "carbs": 45
+  },
+  "mie_goreng": {
+    "name": "Mie Goreng",
+    "proteins": 8,
+    "fat": 12,
+    "carbs": 50
+  },
+  "mieso": {
+    "name": "Mieso",
+    "proteins": 15,
+    "fat": 12,
+    "carbs": 40
+  },
+  "nasgor_jawa": {
+    "name": "Nasi Goreng Jawa",
+    "proteins": 10,
+    "fat": 12,
+    "carbs": 50
+  },
+  "nasgor_merah": {
+    "name": "Nasi Goreng Merah",
+    "proteins": 10,
+    "fat": 14,
+    "carbs": 50
+  },
+  "nasi": {
+    "name": "Nasi Putih",
+    "proteins": 3,
+    "fat": 0.5,
+    "carbs": 40
+  },
+  "nasi_geprekori": {
+    "name": "Nasi Geprek Ori",
+    "proteins": 28,
+    "fat": 18,
+    "carbs": 45
+  },
+  "nasi_padang": {
+    "name": "Nasi Padang",
+    "proteins": 25,
+    "fat": 20,
+    "carbs": 60
+  },
+  "pangsit_goreng": {
+    "name": "Pangsit Goreng",
+    "proteins": 3,
+    "fat": 5,
+    "carbs": 10
+  },
+  "pecel": {
+    "name": "Pecel",
+    "proteins": 8,
+    "fat": 10,
+    "carbs": 30
+  },
+  "peyek": {
+    "name": "Peyek",
+    "proteins": 5,
+    "fat": 12,
+    "carbs": 10
+  },
+  "pizza": {
+    "name": "Pizza",
+    "proteins": 12,
+    "fat": 10,
+    "carbs": 30
+  },
+  "rawon": {
+    "name": "Rawon",
+    "proteins": 20,
+    "fat": 15,
+    "carbs": 5
+  },
+  "rendang": {
+    "name": "Rendang",
+    "proteins": 25,
+    "fat": 20,
+    "carbs": 8
+  },
+  "sate": {
+    "name": "Sate",
+    "proteins": 20,
+    "fat": 10,
+    "carbs": 5
+  },
+  "siomay": {
+    "name": "Siomay",
+    "proteins": 8,
+    "fat": 5,
+    "carbs": 15
+  },
+  "soto_ayam": {
+    "name": "Soto Ayam",
+    "proteins": 15,
+    "fat": 8,
+    "carbs": 10
+  },
+  "tahu_goreng": {
+    "name": "Tahu Goreng",
+    "proteins": 8,
+    "fat": 6,
+    "carbs": 3
+  },
+  "telur_ceplok": {
+    "name": "Telur Ceplok",
+    "proteins": 6,
+    "fat": 5,
+    "carbs": 1
+  },
+  "telur_dadar": {
+    "name": "Telur Dadar",
+    "proteins": 6,
+    "fat": 7,
+    "carbs": 1
+  },
+  "telur_rebus": {
+    "name": "Telur Rebus",
+    "proteins": 6,
+    "fat": 5,
+    "carbs": 1
+  },
+  "tempe_goreng": {
+    "name": "Tempe Goreng",
+    "proteins": 10,
+    "fat": 8,
+    "carbs": 5
+  },
+  "tempe_tepung": {
+    "name": "Tempe Tepung",
+    "proteins": 8,
+    "fat": 10,
+    "carbs": 12
+  }
+}

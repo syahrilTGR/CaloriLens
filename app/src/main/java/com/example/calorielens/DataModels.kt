@@ -22,3 +22,17 @@ data class RawDetection(
     val confidence: Float,
     val rect: RectF
 )
+
+// --- History Models ---
+data class LoggedFoodItem(
+    val name: String = "",
+    val calories: Float = 0f
+)
+
+data class MealLog(
+    val id: String = "",
+    val date: String = "",
+    val timestamp: java.util.Date? = null,
+    val totalCalories: Float = 0f,
+    val items: List<LoggedFoodItem> = emptyList()
+)

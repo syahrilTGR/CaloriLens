@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "525418485620",
+    "project_id": "calorilens-b223f",
+    "storage_bucket": "calorilens-b223f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525418485620:android:1ac3d99aea6d139b31be21",
+        "android_client_info": {
+          "package_name": "com.example.calorielens"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxHR0KS7uP7CsVNXVY9UMwcqYYpHkbD2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
