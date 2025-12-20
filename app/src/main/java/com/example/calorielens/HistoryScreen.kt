@@ -27,30 +27,55 @@ import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * @file HistoryScreen.kt
+ * @brief Berisi implementasi UI untuk layar Riwayat Makanan (Food History).
+ *        Layar ini mengambil dan menampilkan catatan makanan pengguna dari Firestore,
+ *        mengelompokkannya berdasarkan tanggal.
+ */
+
+/**
+ * @brief Composable utama untuk layar riwayat.
+ *
+ * Fungsi ini menangani:
+ * 1.  Pengambilan data riwayat makan (`mealLogs`) dari Firestore untuk pengguna yang sedang login.
+ * 2.  Manajemen state untuk `isLoading` dan `groupedMeals`.
+ * 3.  Menampilkan indikator loading, pesan kosong, atau daftar riwayat yang dikelompokkan berdasarkan tanggal.
+ */
 @Composable
 fun HistoryScreen() {
+    // Inisialisasi Firebase Auth, Firestore, dan konteks lokal.
     val auth = Firebase.auth
     val db = Firebase.firestore
     val context = LocalContext.current
     val userId = auth.currentUser?.uid
 
-    // Group by Date -> List of Meals
+    // State untuk menampung riwayat makan yang sudah dikelompokkan berdasarkan tanggal (String "yyyy-MM-dd").
     var groupedMeals by remember { mutableStateOf<Map<String, List<MealLog>>>(emptyMap()) }
+    // State untuk menandai status proses pengambilan data.
     var isLoading by remember { mutableStateOf(true) }
 
-    // Fetch Logs
+    /**
+     * `LaunchedEffect` digunakan untuk menjalankan suspend function (coroutine) dengan aman
+     * di dalam scope Composable. Efek ini akan dijalankan setiap kali `userId` berubah.
+     * Tugasnya adalah mengambil data dari Firestore.
+     */
     LaunchedEffect(userId) {
         if (userId != null) {
             try {
+                // Mengambil data dari sub-koleksi 'mealLogs' milik pengguna,
+                // diurutkan berdasarkan timestamp (terbaru dulu).
                 val snapshot = db.collection("users").document(userId).collection("mealLogs")
                     .orderBy("timestamp", Query.Direction.DESCENDING)
-                    .get().await()
+                    .get().await() // .await() adalah bagian dari kotlinx-coroutines-play-services
 
+                // Memetakan dokumen Firestore menjadi list objek MealLog.
                 val meals = snapshot.documents.mapNotNull { doc ->
                     try {
                         val data = doc.data ?: return@mapNotNull null
                         
-                        // Parse Items List manually to be safe
+                        // Parsing manual list 'items' untuk keamanan tipe data.
+                        // Data dari Firestore bisa jadi tidak konsisten, jadi perlu penanganan null.
                         val rawItems = data["items"] as? List<Map<String, Any>> ?: emptyList()
                         val parsedItems = rawItems.map { itemMap ->
                             LoggedFoodItem(
@@ -59,6 +84,7 @@ fun HistoryScreen() {
                             )
                         }
 
+                        // Membuat objek MealLog dari data dokumen.
                         MealLog(
                             id = doc.id,
                             date = data["date"] as? String ?: "",
@@ -67,19 +93,22 @@ fun HistoryScreen() {
                             items = parsedItems
                         )
                     } catch (e: Exception) {
-                        null // Skip malformed docs
+                        null // Lewati dokumen yang formatnya salah agar aplikasi tidak crash.
                     }
                 }
                 
+                // Mengelompokkan semua catatan makan berdasarkan tanggalnya.
                 groupedMeals = meals.groupBy { it.date }
-                isLoading = false
+                isLoading = false // Selesai loading
             } catch (e: Exception) {
+                // Menangani error jika pengambilan data gagal.
                 Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 isLoading = false
             }
         }
     }
 
+    // --- UI Layout ---
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp)
     ) {
@@ -87,24 +116,27 @@ fun HistoryScreen() {
         Spacer(Modifier.height(16.dp))
 
         if (isLoading) {
+            // Tampilkan loading spinner di tengah layar.
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         } else if (groupedMeals.isEmpty()) {
+            // Tampilkan pesan jika tidak ada riwayat.
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("No meals logged yet.", color = Color.Gray)
             }
         } else {
+            // Tampilkan daftar riwayat menggunakan LazyColumn untuk efisiensi.
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Explicitly sort dates in descending order (newest first)
+                // Urutkan tanggal dari yang terbaru (descending).
                 groupedMeals.keys.sortedByDescending { it }.forEach { date ->
                     val mealsOnDate = groupedMeals[date] ?: emptyList()
                     val dailyTotal = mealsOnDate.sumOf { it.totalCalories.toDouble() }
                     
+                    // Header untuk setiap tanggal.
                     item {
-                        // Date Header
                         Row(
                             Modifier.fillMaxWidth()
                                 .background(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.shapes.small)
@@ -116,6 +148,7 @@ fun HistoryScreen() {
                         }
                     }
 
+                    // Daftar kartu makan (MealCard) untuk tanggal tersebut.
                     items(mealsOnDate) { meal ->
                         MealCard(meal)
                     }
@@ -125,20 +158,29 @@ fun HistoryScreen() {
     }
 }
 
+/**
+ * @brief Composable untuk menampilkan satu kartu catatan makan (MealLog).
+ *
+ * Kartu ini bisa di-tap untuk menampilkan atau menyembunyikan detail item makanan di dalamnya.
+ *
+ * @param meal Objek [MealLog] yang akan ditampilkan.
+ */
 @Composable
 fun MealCard(meal: MealLog) {
+    // State untuk mengontrol apakah detail kartu ditampilkan atau tidak.
     var expanded by remember { mutableStateOf(false) }
+    // Format timestamp menjadi string jam:menit.
     val timeString = if (meal.timestamp != null) SimpleDateFormat("HH:mm", Locale.getDefault()).format(meal.timestamp) else "--:--"
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .animateContentSize()
-            .clickable { expanded = !expanded },
+            .animateContentSize() // Animasi saat ukuran kartu berubah (expand/collapse).
+            .clickable { expanded = !expanded }, // Toggle state 'expanded' saat diklik.
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(Modifier.padding(16.dp)) {
-            // Header Row
+            // Baris header yang selalu terlihat.
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -163,7 +205,7 @@ fun MealCard(meal: MealLog) {
                 }
             }
 
-            // Expanded Details
+            // Bagian detail yang hanya tampil saat 'expanded' bernilai true.
             if (expanded) {
                 Spacer(Modifier.height(8.dp))
                 Divider()
@@ -183,6 +225,14 @@ fun MealCard(meal: MealLog) {
     }
 }
 
+/**
+ * @brief Fungsi utilitas untuk memformat string tanggal "yyyy-MM-dd".
+ *
+ * Mengubah tanggal hari ini menjadi "Today" untuk tampilan yang lebih ramah pengguna.
+ *
+ * @param dateString Tanggal dalam format "yyyy-MM-dd".
+ * @return "Today" jika tanggalnya hari ini, atau `dateString` asli jika tidak hari ini.
+ */
 fun formatDate(dateString: String): String {
     val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
     return if (dateString == today) "Today" else dateString
